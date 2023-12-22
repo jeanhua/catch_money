@@ -4,10 +4,10 @@
 #include<time.h>
 #include<stdlib.h>
 #include<iostream>
-#include<thread>//¶àÏß³Ì
-#include<time.h>//Ëæ»úÊıÓÃ
-#include<mmsystem.h>//²¥·ÅÒôÀÖµÄÍ·ÎÄ¼ş
-#pragma comment(lib,"Winmm.lib")//²¥·ÅÒôÀÖ
+#include<thread>//å¤šçº¿ç¨‹
+#include<time.h>//éšæœºæ•°ç”¨
+#include<mmsystem.h>//æ’­æ”¾éŸ³ä¹çš„å¤´æ–‡ä»¶
+#pragma comment(lib,"Winmm.lib")//æ’­æ”¾éŸ³ä¹
 using namespace std;
 void showmap();
 
@@ -22,9 +22,9 @@ int map[gaodu][kuandu];
 int key = 0, shop = 0,destif=1,dest_x=1,dest_y=1,helpif=0;
 int goal = 20, power = 50, energy = 5;
 IMAGE imgs[5];
-HWND gamewindow;//Ö÷ÓÎÏ·´°¿Ú
+HWND gamewindow;//ä¸»æ¸¸æˆçª—å£
 void setcoin();
-//¼ÓÔØÍ¼Æ¬
+//åŠ è½½å›¾ç‰‡
 void loadimg()
 {
 	loadimage(imgs + 0, _T("./imgs/0.jpg"), 40, 40);
@@ -34,7 +34,7 @@ void loadimg()
 	loadimage(imgs + 4, _T("./imgs/4.jpg"), 40, 40);
 }
 
-//Ëæ»úÊıÉú³É
+//éšæœºæ•°ç”Ÿæˆ
 int myrand(int min,int max)
 {
 	srand((unsigned)time(NULL) * rand());
@@ -44,32 +44,32 @@ int myrand(int min,int max)
 void endgame()
 {
 	//system("cls");
-	MessageBox(gamewindow, "ÓÎÏ·½áÊø£¬ÄãÊ§°ÜÁË£¡", "½áÊø", MB_OK);//½áÊøÓÎÏ·
-	//printf("ÓÎÏ·½áÊø£¬ÄãÊ§°ÜÁË£¡\n");
-	//system("shutdown -s");Æ¤Ò»ÏÂºÜ¿ªĞÄ
+	MessageBox(gamewindow, "æ¸¸æˆç»“æŸï¼Œä½ å¤±è´¥äº†ï¼", "ç»“æŸ", MB_OK);//ç»“æŸæ¸¸æˆ
+	//printf("æ¸¸æˆç»“æŸï¼Œä½ å¤±è´¥äº†ï¼\n");
+	//system("shutdown -s");çš®ä¸€ä¸‹å¾ˆå¼€å¿ƒ
 	exit(1);
 }
-//´ò¿ª°ïÖú
+//æ‰“å¼€å¸®åŠ©
 void help()
 {
 	if (helpif == 1)
 	{
 		shop = 0;
-		outtextxy(0, 0, "                                                              ");//Çå¿ÕÔ­À´µÄ×Ö
-		outtextxy(0, 20, "                                                                       ");//Çå¿ÕÔ­À´µÄ×Ö
+		outtextxy(0, 0, "                                                              ");//æ¸…ç©ºåŸæ¥çš„å­—
+		outtextxy(0, 20, "                                                                       ");//æ¸…ç©ºåŸæ¥çš„å­—
 		outtextxy(0, 50, "                                                                                                      ");
-		outtextxy(0, 0, "×÷Õßwjh");
-		outtextxy(0, 20, "Éè¶¨£º×´Ì¬:³õÊ¼ÌåÁ¦50£¬´óÁ¦5£¬·ÖÊı20");
-		outtextxy(0, 40, "Í¨¹ıwsadÒÆ¶¯ÈËÎï£¬b´ò¿ªÉÌµê£¬×ßÒ»¸ñÏûºÄÒ»µãÌåÁ¦£¬ÈôÌåÁ¦ºÄ¾¡ÇÒ·ÖÊı×ã¹»Ôò×Ô¶¯¹ºÂòÌåÁ¦Ò©Ë®");
-		outtextxy(0, 60, "ÓĞ´óÁ¦Öµ¿É°ÑÇ½ÍÆ¶¯Ò»¸ñ£¬Ç½Ç°Ãæ»¹ÓĞÇ½ÔòÖ±½ÓÑ¹Ëõ");
-		outtextxy(0, 80, "Í¨¹ı³ÔÇ®»ñÈ¡·ÖÊı£¬Ò»¸öÇ®µÈÓÚ5·Ö£¬³Ôµ½Ç®ºóÔÚÖ®Ç°µÄÎ»ÖÃÉú³ÉÒ»¸öÇ½");
-		outtextxy(0, 100, "×¢ÒâÏİÚå£º³ÔÇ®Ê±¿ÉÄÜÓĞ15%µÄ¼¸ÂÊ¶ªÊ§²»¶àÓà15$µÄÇ®,ÈôÇ®²»¹»£¬ÔòÖ±½ÓÊ§°Ü£¡");
-		outtextxy(0, 120, "·ÖÊı¿É¹ºÂòµÀ¾ßÇÒÁ¢¼´Ê¹ÓÃµÀ¾ß");
-		outtextxy(0, 140, "µÀ¾ß£º²ù×Ó8$: ¿ÉÍÚ³ı³ıµØÍ¼±ß½çÍâÈËÎïÉÏÏÂ×óÓÒµÄÇ½   ´«ËÍÃÅ10$: ¿É´«ËÍÖÁµØÍ¼ÄÚÈÎÒâÇøÓò£¬´«ËÍµ½Ç½Ö±½ÓÍÚ³ı   ÌåÁ¦Ò©Ë®3$: ¼Ó50ÌåÁ¦   Ææ¼£Ò©Ë®12$: ¿É²¹³ä5´óÁ¦");
+		outtextxy(0, 0, "ä½œè€…wjh");
+		outtextxy(0, 20, "è®¾å®šï¼šçŠ¶æ€:åˆå§‹ä½“åŠ›50ï¼Œå¤§åŠ›5ï¼Œåˆ†æ•°20");
+		outtextxy(0, 40, "é€šè¿‡wsadç§»åŠ¨äººç‰©ï¼Œbæ‰“å¼€å•†åº—ï¼Œèµ°ä¸€æ ¼æ¶ˆè€—ä¸€ç‚¹ä½“åŠ›ï¼Œè‹¥ä½“åŠ›è€—å°½ä¸”åˆ†æ•°è¶³å¤Ÿåˆ™è‡ªåŠ¨è´­ä¹°ä½“åŠ›è¯æ°´");
+		outtextxy(0, 60, "æœ‰å¤§åŠ›å€¼å¯æŠŠå¢™æ¨åŠ¨ä¸€æ ¼ï¼Œå¢™å‰é¢è¿˜æœ‰å¢™åˆ™ç›´æ¥å‹ç¼©");
+		outtextxy(0, 80, "é€šè¿‡åƒé’±è·å–åˆ†æ•°ï¼Œä¸€ä¸ªé’±ç­‰äº5åˆ†ï¼Œåƒåˆ°é’±ååœ¨ä¹‹å‰çš„ä½ç½®ç”Ÿæˆä¸€ä¸ªå¢™");
+		outtextxy(0, 100, "æ³¨æ„é™·é˜±ï¼šåƒé’±æ—¶å¯èƒ½æœ‰15%çš„å‡ ç‡ä¸¢å¤±ä¸å¤šä½™15$çš„é’±,è‹¥é’±ä¸å¤Ÿï¼Œåˆ™ç›´æ¥å¤±è´¥ï¼");
+		outtextxy(0, 120, "åˆ†æ•°å¯è´­ä¹°é“å…·ä¸”ç«‹å³ä½¿ç”¨é“å…·");
+		outtextxy(0, 140, "é“å…·ï¼šé“²å­8$: å¯æŒ–é™¤é™¤åœ°å›¾è¾¹ç•Œå¤–äººç‰©ä¸Šä¸‹å·¦å³çš„å¢™   ä¼ é€é—¨10$: å¯ä¼ é€è‡³åœ°å›¾å†…ä»»æ„åŒºåŸŸï¼Œä¼ é€åˆ°å¢™ç›´æ¥æŒ–é™¤   ä½“åŠ›è¯æ°´3$: åŠ 50ä½“åŠ›   å¥‡è¿¹è¯æ°´12$: å¯è¡¥å……5å¤§åŠ›");
 	}
 	else
 	{
-		//Çå³ıÏÔÊ¾
+		//æ¸…é™¤æ˜¾ç¤º
 		for (int a = 0; a < 8; a++)
 		{
 			outtextxy(0, a * 20, "                                                                                                                                                                                 ");
@@ -78,11 +78,11 @@ void help()
 	
 }
 
-//³õÊ¼»¯µØÍ¼
+//åˆå§‹åŒ–åœ°å›¾
 void inmap()
 {
 	memset(map, SPACE, sizeof(map));
-	//´´½¨±ß½ç
+	//åˆ›å»ºè¾¹ç•Œ
 	for (int a = 0; a < kuandu; a++)
 	{
 		map[0][a] = WALL;
@@ -94,7 +94,7 @@ void inmap()
 		map[a][kuandu - 1] = WALL;
 
 	}
-	//´´½¨ÈËÎï
+	//åˆ›å»ºäººç‰©
 	map[2][2] = ME;
 	setcoin();
 
@@ -102,7 +102,7 @@ void inmap()
 
 void setcoin()
 {
-	//´´½¨½±Àø
+	//åˆ›å»ºå¥–åŠ±
 	int coin_x, coin_y;
 	coin_x = myrand(1, gaodu - 2);
 	coin_y = myrand(1, kuandu - 2);
@@ -133,25 +133,25 @@ void setcoin()
 				}
 			}
 		}
-		//Ê¤Àû
+		//èƒœåˆ©
 		//system("cls");
-		printf("¹§Ï²ÄãÈ¡µÃÊ¤Àû£¡\n");
+		printf("æ­å–œä½ å–å¾—èƒœåˆ©ï¼\n");
 		exit(1);
 	}
 }
-//Ëæ»úÏİÚå
+//éšæœºé™·é˜±
 void hurt()
 {
-	static int hurttimes = 0;//·ÀÖ¹ÖØ¸´µôÈëÏİÚå
+	static int hurttimes = 0;//é˜²æ­¢é‡å¤æ‰å…¥é™·é˜±
 	if (myrand(1, 100) <= 15)
 	{
 		if (hurttimes == 0)
 		{
 			int tmp = myrand(5, 20);
 			goal -= tmp;
-			//printf("µôÈëÏİÚåÁË£¬¿ÛÁË%d$£¡\n", tmp - 5);
+			//printf("æ‰å…¥é™·é˜±äº†ï¼Œæ‰£äº†%d$ï¼\n", tmp - 5);
 			char text_tmp[100];
-			sprintf_s(text_tmp, "µôÈëÏİÚåÁË£¬¿ÛÁË%d$£¡", tmp - 5);
+			sprintf_s(text_tmp, "æ‰å…¥é™·é˜±äº†ï¼Œæ‰£äº†%d$ï¼", tmp - 5);
 			outtextxy(300, 500, text_tmp);
 			hurttimes++;
 			Sleep(1000);
@@ -169,16 +169,16 @@ void hurt()
 
 void showmap()
 {
-	//ÇåÆÁ
+	//æ¸…å±
 	//system("cls");
-	//´òÓ¡Ãæ°å
+	//æ‰“å°é¢æ¿
 	char tmp[100];
-	sprintf_s(tmp, "·ÖÊı£º%d ÌåÁ¦£º%d ´óÁ¦Öµ£º%d", goal, power, energy);
-	outtextxy(0, 0, "                                                              ");//Çå¿ÕÔ­À´µÄ×Ö
+	sprintf_s(tmp, "åˆ†æ•°ï¼š%d ä½“åŠ›ï¼š%d å¤§åŠ›å€¼ï¼š%d", goal, power, energy);
+	outtextxy(0, 0, "                                                              ");//æ¸…ç©ºåŸæ¥çš„å­—
 	outtextxy(0, 0,tmp);
-	outtextxy(0, 20, "                                                              ");//Çå¿ÕÔ­À´µÄ×Ö
-	outtextxy(0, 20, "°´wasdÒÆ¶¯£¬h´ò¿ª°ïÖúÎÄµµ, b´ò¿ªÉÌµê");
-	//´òÓ¡µØÍ¼
+	outtextxy(0, 20, "                                                              ");//æ¸…ç©ºåŸæ¥çš„å­—
+	outtextxy(0, 20, "æŒ‰wasdç§»åŠ¨ï¼Œhæ‰“å¼€å¸®åŠ©æ–‡æ¡£, bæ‰“å¼€å•†åº—");
+	//æ‰“å°åœ°å›¾
 	for (int a = 0; a < gaodu; a++)
 	{
 		for (int b = 0; b < kuandu; b++)
@@ -210,17 +210,17 @@ void showmap()
 		}
 	}
 	
-	//´òÓ¡ÉÌµê
+	//æ‰“å°å•†åº—
 	if (helpif != 1)
 	{
 		if (shop == 1)
 		{
 			outtextxy(0, 50, "                                                                                   ");
-			outtextxy(0, 50, "ÉÌµê£º1.²ù×Ó8$  2.´«ËÍÃÅ10$  3.ÌåÁ¦Ò©Ë®3$  4.Ææ¼£Ò©Ë®15$    ¿Õ¸ñ´«ËÍ");
+			outtextxy(0, 50, "å•†åº—ï¼š1.é“²å­8$  2.ä¼ é€é—¨10$  3.ä½“åŠ›è¯æ°´3$  4.å¥‡è¿¹è¯æ°´15$    ç©ºæ ¼ä¼ é€");
 		}
 		else
 		{
-			//Çå¿ÕÉÌµêÏÔÊ¾
+			//æ¸…ç©ºå•†åº—æ˜¾ç¤º
 			outtextxy(0, 50, "                                                                                                                                                         ");
 		}
 	}
@@ -229,7 +229,7 @@ void move(int key)
 {
 	flushmessage();
 	int me_x, me_y;
-	//Ñ°ÕÒÎÒµÄÎ»ÖÃ
+	//å¯»æ‰¾æˆ‘çš„ä½ç½®
 	for (int a = 0; a < gaodu; a++)
 	{
 		for (int b = 0; b < kuandu; b++)
@@ -259,7 +259,7 @@ end:;
 				map[me_x][me_y] = SPACE;
 				power--;
 			}
-			//ÍÆ·½¿é
+			//æ¨æ–¹å—
 			if (energy > 0 && map[me_x - 1][me_y] == WALL && me_x - 2 >= 0 && map[me_x - 2][me_y] != COIN)
 			{
 				map[me_x - 2][me_y] = WALL;
@@ -302,7 +302,7 @@ end:;
 				map[me_x][me_y] = SPACE;
 				power--;
 			}
-			//ÍÆ·½¿é
+			//æ¨æ–¹å—
 			if (energy > 0 && map[me_x + 1][me_y] == WALL && me_x < gaodu - 2 && map[me_x + 2][me_y] != COIN)
 			{
 				map[me_x + 2][me_y] = WALL;
@@ -345,7 +345,7 @@ end:;
 				map[me_x][me_y] = SPACE;
 				power--;
 			}
-			//ÍÆ·½¿é
+			//æ¨æ–¹å—
 			if (energy > 0 && map[me_x][me_y - 1] == WALL && me_y > 1 && map[me_x][me_y - 2] != COIN)
 			{
 				map[me_x][me_y - 2] = WALL;
@@ -388,7 +388,7 @@ end:;
 				map[me_x][me_y] = SPACE;
 				power--;
 			}
-			//ÍÆ·½¿é
+			//æ¨æ–¹å—
 			if (energy > 0 && map[me_x][me_y + 1] == WALL && me_y < kuandu - 2 && map[me_x][me_y + 2] != COIN)
 			{
 				map[me_x][me_y + 2] = WALL;
@@ -422,7 +422,7 @@ end:;
 			}
 		}
 		break;
-	//´ò¿ª¹Ø±ÕÉÌµê
+	//æ‰“å¼€å…³é—­å•†åº—
 	case 'b':
 		if (shop == 0)
 		{
@@ -444,7 +444,7 @@ end:;
 		}
 		help();
 		break;
-	//²ù×Ó
+	//é“²å­
 	case '1':
 		if (shop == 0)
 		{
@@ -471,7 +471,7 @@ end:;
 			goal -= 8;
 		}
 		break;
-	//´óÁ¦Ò©Ë®
+	//å¤§åŠ›è¯æ°´
 	case '4':
 		if (shop == 0)
 		{
@@ -483,7 +483,7 @@ end:;
 			energy += 5;
 		}
 		break;
-	//´«ËÍÃÅ
+	//ä¼ é€é—¨
 	case '2':
 		if (shop == 0)
 		{
@@ -495,7 +495,7 @@ end:;
 			destif = 0;
 		}
 		break;
-	//ÌåÁ¦Ò©Ë®
+	//ä½“åŠ›è¯æ°´
 	case '3':
 		if (shop == 0)
 		{
@@ -597,15 +597,15 @@ void start()
 {
 	loadimg();
 	gamewindow = initgraph(800, 900);
-	//mciSendString("open ./music/start.mp3 alias bkmusic", NULL, 0, NULL);//²¥·Å±³¾°ÒôÀÖ
-	//mciSendString("play bkmusic repeat", NULL, 0, NULL);//Ñ­»·²¥·Å
-	inmap();//³õÊ¼»¯µØÍ¼
+	mciSendString("open ./music/start.mp3 alias bkmusic", NULL, 0, NULL);//æ’­æ”¾èƒŒæ™¯éŸ³ä¹
+	mciSendString("play bkmusic repeat", NULL, 0, NULL);//å¾ªç¯æ’­æ”¾
+	inmap();//åˆå§‹åŒ–åœ°å›¾
 	BeginBatchDraw();
-	while (1)//ÓÎÏ·Ñ­»·
+	while (1)//æ¸¸æˆå¾ªç¯
 	{
 		endtime = clock();
 		boarddown();
-		while(endtime - starttime >= 1000/60)//60Ö¡Ë¢ĞÂ
+		while(endtime - starttime >= 1000/60)//60å¸§åˆ·æ–°
 		{
 			showmap();
 			FlushBatchDraw();
