@@ -3,3 +3,5 @@
 利用c语言数组和easyx图形库制作的简单小游戏
 # ✅博客地址
 https://www.luogu.com.cn/blog/jeanhua/mygame
+
+![image](https://raw.githubusercontent.com/jeanhua/catch_money/main/gameshot.png)
